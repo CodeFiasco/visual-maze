@@ -3,11 +3,9 @@ body{
 }
 
 #maze{
-  width: 500px;
+  width: 750px;
   height: 500px;
   margin: 20px auto;
-  border-top: 2px solid black;
-  border-left: 2px solid black;
 }
 
 #create-speed {
@@ -25,8 +23,7 @@ body{
   height: 25px;
   background: #CE6D39;
   float: left;
-  border-right: 3px solid black;
-  border-bottom: 3px solid black;
+  border: 1px solid black;
   box-sizing: border-box;
   position: relative;
 }
@@ -64,4 +61,12 @@ body{
 
 .bottom{
   border-bottom: none;
+}
+
+.top{
+  border-top: none;
+}
+
+.left{
+  border-left: none;
 }

@@ -1,5 +1,5 @@
 // Get width and height
-var width = 20; // document.getElementById('width').value;
+var width = 30; // document.getElementById('width').value;
 var height = 20; // document.getElementById('height').value;
 
 var createSpeed = 50;
@@ -101,6 +101,7 @@ function Maze(w, h) {
 						aux.html.className += ' bottom';
 
 						this.currentCell.top = true;
+						this.currentCell.html.className += ' top';
 
 						return aux; // Return next this.currentCell
 					}
@@ -114,6 +115,7 @@ function Maze(w, h) {
 						this.currentCell.html.className += ' right';
 
 						aux.left = true;
+						aux.html.className += ' left'
 
 						return aux;
 					}
@@ -127,6 +129,7 @@ function Maze(w, h) {
 						this.currentCell.html.className += ' bottom';
 
 						aux.top = true;
+						aux.html.className += ' top';
 
 						return aux;
 					}
@@ -139,6 +142,7 @@ function Maze(w, h) {
 						aux.html.className += ' right';
 
 						this.currentCell.left = true;
+						this.currentCell.html.className += ' left';
 
 						return aux;
 					}
