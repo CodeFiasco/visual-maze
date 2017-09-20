@@ -1,0 +1,67 @@
+body{
+  background: #000000;
+}
+
+#maze{
+  width: 500px;
+  height: 500px;
+  margin: 20px auto;
+  border-top: 2px solid black;
+  border-left: 2px solid black;
+}
+
+#create-speed {
+  direction: rtl
+}
+
+#solve{
+  display: block;
+  margin: 0 auto;
+  font-size: 1rem;
+}
+
+.cell{
+  width: 25px;
+  height: 25px;
+  background: #CE6D39;
+  float: left;
+  border-right: 3px solid black;
+  border-bottom: 3px solid black;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.start::after, .end::after{
+  text-align: center;
+  line-height: 25px;
+  width: 22px;
+  height: 22px;
+  font-size: 1.25rem;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.start::after{
+  content: 'S';
+}
+
+.end::after{
+  content: 'E';
+}
+
+.highlight{
+  background: #F17F42;
+}
+
+.path{
+  background: #FFEEE4;
+}
+
+.right{
+  border-right: none;
+}
+
+.bottom{
+  border-bottom: none;
+}
