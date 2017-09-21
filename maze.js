@@ -1,22 +1,72 @@
 // Get width and height
-var width = 30; // document.getElementById('width').value;
-var height = 20; // document.getElementById('height').value;
+var width = 10; // document.getElementById('width').value;
+var height = 10; // document.getElementById('height').value;
+var speed = 2;
 
-var createSpeed = 50;
+var maze = new Maze(width, height);
+
+// Create new maze path
+var timer = setInterval(function() {
+	var notSolved = maze.move();
+
+	// Check if all maze path is complete
+	if (!notSolved) {
+		clearInterval(timer);
+
+		document.getElementById('solve').disabled = false;
+	}
+}, 50 * speed);
+
+// Solve maze on button click
+document.getElementById('solve').addEventListener('click', function() {
+	maze.startPoint.html.className += ' path';
+
+	// Search for path
+	var solving = setInterval(function() {
+		var finished = maze.solve();
+
+		// Check if the end point has been reached
+		if (finished) {
+			clearInterval(solving);
+
+			document.getElementById('solve').disabled = true;
+		}
+
+	}, 50 * speed);
+});
 
 function Maze(w, h) {
-	this.html = container = document.getElementById('maze');
+	this.html = document.getElementById('maze');
 
-	this.cells = createMaze(w, h, this.html);
+	// Returns a matrix with h by w cells
+	this.createMaze = function(width, height) {
+		var finalMatrix = [];
 
-	this.startPoint = this.cells[getRandomInt(0, height - 1)][getRandomInt(0, width - 1)];
+	    for(var i=0; i < height; i++) {
+	        var auxMatrix = [];
+
+	        for(var j=0; j < width; j++) {
+	            auxMatrix.push(new Cell(j, i, this.html));	// Create new Cell and store it
+							this.html.appendChild(auxMatrix[j].html);		// Append new Cell to maze container
+	        }
+
+	        finalMatrix.push(auxMatrix);
+	    }
+
+	    return finalMatrix;
+	}
+
+	// Create matrix to represent maze cells
+	this.cells = this.createMaze(w, h);
+
+	// Select a random starting point
+	this.startPoint = this.cells[getRandomInt(0, h - 1)][getRandomInt(0, w - 1)];
 	this.startPoint.html.className += ' start highlight';
 	this.startPoint.visited = true;
-
 	this.currentCell = this.startPoint;
 
+	// Initialize stack
 	this.stack = [this.currentCell];
-
 	this.maxStack = 0;
 
 	this.move = function() {
@@ -171,53 +221,6 @@ function Cell(x, y) {
 	this.html = document.createElement('div');
 	this.html.className = 'cell';
 
-}
-
-var maze = new Maze(width, height);
-
-var toSolve = maze.move();
-
-timer = setInterval(function () {
-	toSolve = maze.move();
-
-	if(!toSolve) {
-		clearInterval(timer);
-
-		document.getElementById('solve').disabled = false;
-
-		document.getElementById('solve').addEventListener('click', function() {
-			maze.startPoint.html.className += ' path';
-
-			var solving = setInterval(function () {
-				var finished = maze.solve();
-
-				if(finished){
-					clearInterval(solving);
-					document.getElementById('solve').disabled = true;
-				}
-
-			}, 100);
-
-		});
-	}
-
-}, 10);
-
-function createMaze(w, h, container) {
-	var finalMatrix = [];
-
-    for(var i=0; i < h; i++) {
-        var auxMatrix = [];
-
-        for(var j=0; j < w; j++) {
-            auxMatrix.push(new Cell(j, i, container));
-						container.appendChild(auxMatrix[j].html);
-        }
-
-        finalMatrix.push(auxMatrix);
-    }
-
-    return finalMatrix;
 }
 
 // Returns a random Integer between 2 values (inclusive)
