@@ -148,26 +148,30 @@ function Maze(w, h) {
 	}
 
 	this.solve = function() {
-		var direction = this.getUnvisitedCellDirection();
+		var direction = false;
 
-		if(direction) {
-			switch(direction){
-				case 'top':
-						this.currentCell = this.cells[this.currentCell.y - 1][this.currentCell.x];
-					break;
+		// Top
+		if(this.currentCell.top && !this.cells[this.currentCell.y - 1][this.currentCell.x].visited){
+			direction = true;
+			this.currentCell = this.cells[this.currentCell.y - 1][this.currentCell.x];
+		}
+		// Right
+		else if(this.currentCell.right && !this.cells[this.currentCell.y][this.currentCell.x + 1].visited){
+			direction = true;
+			this.currentCell = this.cells[this.currentCell.y][this.currentCell.x + 1];
+		}
+		// Bottom
+		else if(this.currentCell.bottom && !this.cells[this.currentCell.y + 1][this.currentCell.x].visited){
+			direction = true;
+			this.currentCell = this.cells[this.currentCell.y + 1][this.currentCell.x];
+		}
+		// Left
+		else if(this.currentCell.left && !this.cells[this.currentCell.y][this.currentCell.x - 1].visited){
+			direction = true;
+			this.currentCell = this.cells[this.currentCell.y][this.currentCell.x - 1];
+		}
 
-				case 'right':
-						this.currentCell = this.cells[this.currentCell.y][this.currentCell.x + 1];
-					break;
-
-				case 'bottom':
-						this.currentCell = this.cells[this.currentCell.y + 1][this.currentCell.x];
-					break;
-
-				case 'left':
-						this.currentCell = this.cells[this.currentCell.y][this.currentCell.x - 1];
-					break;
-			}
+		if(direction){
 
 			this.currentCell.visited = true;
 			this.currentCell.html.className += ' path';
@@ -176,6 +180,7 @@ function Maze(w, h) {
 			if (this.currentCell == this.endPoint)
 				return true;
 		}
+		// All cells are visited
 		else{
 			this.currentCell.html.className = this.currentCell.html.className.replace(' path', '');
 			this.stack.pop();
