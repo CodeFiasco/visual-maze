@@ -6,17 +6,7 @@ var speed = 2;
 var maze = new Maze(width, height);
 
 // Create new maze path
-var timer = setInterval(function() {
-	var notSolved = maze.move();
-
-	// Check if all maze path is complete
-	if (!notSolved) {
-		clearInterval(timer);
-
-		document.getElementById('solve').disabled = false;
-		document.getElementById('solve').style.display = 'block';
-	}
-}, 50 * speed);
+maze.setCreateCycle(speed);
 
 // Solve maze on button click
 document.getElementById('solve').addEventListener('click', function() {
@@ -32,9 +22,21 @@ document.getElementById('solve').addEventListener('click', function() {
 
 			document.getElementById('solve').disabled = true;
 			document.getElementById('solve').style.display = 'none';
+
+			document.getElementById('new').disabled = false;
+			document.getElementById('new').style.display = 'block';
 		}
 
 	}, 50 * speed);
+});
+
+// New maze
+document.getElementById('new').addEventListener('click', function() {
+	document.getElementById('new').disabled = true;
+	document.getElementById('new').style.display = 'none';
+
+	maze.newMaze(width, height);
+	maze.setCreateCycle(speed);
 });
 
 function Maze(w, h) {
@@ -301,6 +303,23 @@ function Maze(w, h) {
 
 	// Set initial values
 	this.setInitialValues();
+
+	// Start a create loop
+	this.setCreateCycle = function(vel) {
+		this.timer = setInterval(function(maze) {
+			maze.notSolved = maze.move();
+
+			// Check if all maze path is complete
+			if (!maze.notSolved) {
+				clearInterval(maze.timer);
+
+				document.getElementById('solve').disabled = false;
+				document.getElementById('solve').style.display = 'block';
+			}
+		}, 50 * vel, this);
+	}
+
+	// Start a solve loop
 }
 
 function Cell(x, y) {
