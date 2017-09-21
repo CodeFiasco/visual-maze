@@ -14,6 +14,7 @@ var timer = setInterval(function() {
 		clearInterval(timer);
 
 		document.getElementById('solve').disabled = false;
+		document.getElementById('solve').style.display = 'block';
 	}
 }, 50 * speed);
 
@@ -30,6 +31,7 @@ document.getElementById('solve').addEventListener('click', function() {
 			clearInterval(solving);
 
 			document.getElementById('solve').disabled = true;
+			document.getElementById('solve').style.display = 'none';
 		}
 
 	}, 50 * speed);
@@ -56,19 +58,20 @@ function Maze(w, h) {
 	    return finalMatrix;
 	}
 
-	// Create matrix to represent maze cells
-	this.cells = this.createMaze(w, h);
+	// Sets initial starting point and creates stack
+	this.setInitialValues = function() {
+		// Select a random starting point
+		this.startPoint = this.cells[getRandomInt(0, h - 1)][getRandomInt(0, w - 1)];
+		this.startPoint.html.className += ' start highlight';
+		this.startPoint.visited = true;
+		this.currentCell = this.startPoint;
 
-	// Select a random starting point
-	this.startPoint = this.cells[getRandomInt(0, h - 1)][getRandomInt(0, w - 1)];
-	this.startPoint.html.className += ' start highlight';
-	this.startPoint.visited = true;
-	this.currentCell = this.startPoint;
+		// Initialize stack used to create and solve maze
+		this.stack = [this.currentCell];
+		this.maxStack = 0;
+	}
 
-	// Initialize stack used to create and solve maze
-	this.stack = [this.currentCell];
-	this.maxStack = 0;
-
+	// Creates a random maze, one new cell on each call
 	this.move = function() {
 		var direction = this.getUnvisitedCellDirection();
 
@@ -147,6 +150,7 @@ function Maze(w, h) {
 		return true;
 	}
 
+	// Finds the end point of the maze, one cell on each call
 	this.solve = function() {
 		var direction = false;
 
@@ -280,6 +284,23 @@ function Maze(w, h) {
 			}
 		}
 	}
+
+	// Clears previous maze and creates a new one
+	this.newMaze = function(w, h) {
+		// Clear previous maze
+		while(this.html.firstChild){
+			this.html.removeChild(this.html.firstChild);
+		}
+
+		this.setInitialValues();
+		this.cells = this.createMaze(w, h);
+	}
+
+	// Create matrix to represent maze cells
+	this.cells = this.createMaze(w, h);
+
+	// Set initial values
+	this.setInitialValues();
 }
 
 function Cell(x, y) {
