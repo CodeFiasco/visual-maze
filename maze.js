@@ -208,15 +208,6 @@ function Maze(w, h) {
 						if(this.currentCell.y - 1 >= 0 &&
 						this.cells[this.currentCell.y - 1][this.currentCell.x].visited === false) {
 							return 'top';
-							var aux = this.cells[this.currentCell.y - 1][this.currentCell.x];
-
-							aux.bottom = true;
-							aux.html.className += ' bottom';
-
-							this.currentCell.top = true;
-							this.currentCell.html.className += ' top';
-
-							return aux; // Return next this.currentCell
 						}
 					break;
 
@@ -225,15 +216,6 @@ function Maze(w, h) {
 						if(this.currentCell.x + 1 < width &&
 						this.cells[this.currentCell.y][this.currentCell.x + 1].visited === false) {
 							return 'right';
-							var aux = this.cells[this.currentCell.y][this.currentCell.x + 1];
-
-							this.currentCell.right = true;
-							this.currentCell.html.className += ' right';
-
-							aux.left = true;
-							aux.html.className += ' left'
-
-							return aux;
 						}
 					break;
 
@@ -242,15 +224,6 @@ function Maze(w, h) {
 						if(this.currentCell.y + 1 < height &&
 						this.cells[this.currentCell.y + 1][this.currentCell.x].visited === false) {
 							return 'bottom';
-							var aux = this.cells[this.currentCell.y + 1][this.currentCell.x];
-
-							this.currentCell.bottom = true;
-							this.currentCell.html.className += ' bottom';
-
-							aux.top = true;
-							aux.html.className += ' top';
-
-							return aux;
 						}
 					break;
 
@@ -259,15 +232,6 @@ function Maze(w, h) {
 						if(this.currentCell.x - 1 >= 0 &&
 						this.cells[this.currentCell.y][this.currentCell.x - 1].visited === false) {
 							return 'left';
-							var aux = this.cells[this.currentCell.y][this.currentCell.x - 1];
-
-							aux.right = true;
-							aux.html.className += ' right';
-
-							this.currentCell.left = true;
-							this.currentCell.html.className += ' left';
-
-							return aux;
 						}
 					break;
 			}
